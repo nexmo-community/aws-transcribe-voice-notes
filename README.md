@@ -33,8 +33,8 @@ Your Vonage Voice API application uses HTTP POST to the connector address with t
 
 A few seconds later, the connector posts back to your Vonage Voice API application webhook_url a JSON formatted payload (in the body of an HTTP POST):</br>
 	- the _**"transcript"**_,</br>
-	- the name of the _**"service"**_, which is "AWS Transcribe" in this case, 
-	- and all other values sent as query parameters of the original request to the connector, e.g. _**webhook_url**_, _**language_code**_, and any additional query parameters that have been sent in the original HTTP POST</br>
+	- the name of the _**"service"**_, which is "AWS Transcribe" in this case,</br> 
+	- and all other values sent as query parameters of the original request to the connector, e.g. _**"webhook_url"**_, _**"language_code"**_, and any additional query parameters that have been sent in the original HTTP POST</br>
 
 ## Running Transcibe connector for Voice Notes
 
