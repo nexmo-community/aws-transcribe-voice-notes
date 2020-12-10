@@ -22,17 +22,19 @@ Vonage Voice API's Amazon Transcribe connector for Voice Notes transcribe audio 
 
 The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before submitting it via HTTP POST to this connector.
 
-Your Vonage Voice API application uses HTTP POST to the connector address with:
+Your Vonage Voice API application uses HTTP POST to the connector address with the follwing requirements:
 - The Voice Note audio file as binary payload for the HTTP POST body,
-- And must include the query parameters:
-	- _*webhook_url*_ (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
-	- _*language_code*_ (e.g. en-US), which defines the transcription language 
-	- _*entity*_ (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
-	- _*id*_ (for any reference you may need), should be unique
+- Must include at least the following query parameters:
+	- _**webhook_url**_ (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
+	- _**language_code**_ (e.g. en-US), which defines the transcription language
+- Your application may send/use any additional query parameter names and values for your application logic needs, except it **may not** use/send the following reserved query parameter names:
+	- _**transcript**_
+	- _**service**_ 
 
-A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):</br>
-	- the transcript,</br>
-	- and all values sent in the query parameters (except webhook_url) of the original request to the connector, which include language_code, entity, id.</br>
+A few seconds later, the connector posts back to your Vonage Voice API application webhook_url a JSON formatted payload (in the body of an HTTP POST):</br>
+	- the _**"transcript"**_,</br>
+	- the name of the _**"service"**_, which is "AWS Transcribe" in this case, 
+	- and all other values sent as query parameters of the original request to the connector, e.g. _**webhook_url**_, _**language_code**_, and any additional query parameters that have been sent in the original HTTP POST</br>
 
 ## Running Transcibe connector for Voice Notes
 
