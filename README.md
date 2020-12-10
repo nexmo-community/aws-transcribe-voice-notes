@@ -30,9 +30,9 @@ Your Vonage Voice API application uses HTTP POST to the connector address with:
 	- entity (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
 	- id (for any reference you may need), should be unique
 
-A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):
-	- the transcript,
-	- and all values sent in the query parameters (except webhook_url) of the original request to the connector, which include language_code, entity, id.
+A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):</br>
+	- the transcript,</br>
+	- and all values sent in the query parameters (except webhook_url) of the original request to the connector, which include language_code, entity, id.</br>
 
 ## Running Transcibe connector for Voice Notes
 
