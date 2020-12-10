@@ -20,19 +20,19 @@ To find your Access Key and Secret Access Key:
 
 Vonage Voice API's Amazon Transcribe connector for Voice Notes transcribe audio clips created with Vonage API Client SDK (WebRTC client).
 
-The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono.
+The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before submitting it via HTTP POST to this connector.
 
 Your Vonage Voice API application uses HTTP POST to the connector address with:
 - The Voice Note audio file as binary payload for the HTTP POST body,
-- Must include the query parameters:
-	- webhook_url (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
-	- language_code (e.g. en-US), which defines the transcription language 
-	- entity (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
-	- id (for any reference you may need), should be unique
+- And must include the query parameters:
+	- _*webhook_url*_ (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
+	- _*language_code*_ (e.g. en-US), which defines the transcription language 
+	- _*entity*_ (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
+	- _*id*_ (for any reference you may need), should be unique
 
-A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):
-	- the transcript,
-	- and all values sent in the query parameters (except webhook_url) of the original request to the connector, which include language_code, entity, id.
+A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):</br>
+	- the transcript,</br>
+	- and all values sent in the query parameters (except webhook_url) of the original request to the connector, which include language_code, entity, id.</br>
 
 ## Running Transcibe connector for Voice Notes
 
@@ -54,7 +54,7 @@ Launch the Transcribe & Comprehend connector as a Docker instance:
 ```bash
 docker-compose up
 ```
-Your Docker container's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<docker_host_name>:<proxy_port>`, e.g. `https://myserver.mydomain.com:40000`
+Your Docker container's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<docker_host_name>:<proxy_port>/transcribe`, e.g. `https://myserver.mydomain.com:40000/transcribe`
 
 ### Local deployment
 
@@ -80,7 +80,7 @@ Launch the connector service:
 python server.py
 ```
 
-Your server's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<serverhostname>:<port>`, e.g. `https://abcdef123456.ngrok.io`
+Your server's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<serverhostname>:<port>/transcribe`, e.g. `https://abcdef123456.ngrok.io/transcribe`
 
 ### Command Line Heroku deployment
 
@@ -107,13 +107,13 @@ AWS_DEFAULT_REGION</br>
 git push heroku master
 ```
 
-On your Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as part of the websocket uri, e.g. `wss://myappname.herokuapp.com` 
+On your Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
 
 ### 1-click Heroku deployment
 
 Click the 'Deploy to Heroku' button at the top of this page, and follow the instructions to enter your Heroku application name and the 3 AWS parameter respective values retrieved from your AWS account.
 
-Once deployed, on the Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as part of the websocket uri, e.g. `wss://myappname.herokuapp.com`.
+Once deployed, on the Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
 
 ## Usage capacity
 
