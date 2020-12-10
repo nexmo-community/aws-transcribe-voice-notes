@@ -354,6 +354,8 @@ class TranscribeHandler(tornado.web.RequestHandler):
 
     async def prepare(self):
         self.request.connection.set_max_body_size(MAX_STREAMED_SIZE)
+        self.query_params = self.request.query_arguments
+        # print("self.query_params:", self.query_params)
 
     async def data_received(self, chunck):
         self.bytes_read += len(chunck)
@@ -363,7 +365,13 @@ class TranscribeHandler(tornado.web.RequestHandler):
         self.write('ok')
         self.set_header("Content-Type", 'text/plain')
         self.finish()
-        
+
+        # Retrieve all query paramaters
+        for k,v in self.query_params.items():
+            self.query_params[k] = v[0].decode("utf-8")
+
+        self.payload = str(json.dumps(self.query_params))
+
         self.webhook_url = self.get_argument("webhook_url")
         self.entity = self.get_argument("entity")
         self.id = self.get_argument("id")
@@ -405,15 +413,23 @@ class TranscribeHandler(tornado.web.RequestHandler):
         del(x)
 
         if self.transcript != '' :
-            self.payload_raw = {
-                "transcript": str(self.transcript),
-                "entity": str(self.entity),
-                "id": str(self.id),
-                "language": str(self.language_code),
-                "service": "AWS Transcribe"
-            }
+            # self.payload_raw = {
+            #     "transcript": str(self.transcript),
+            #     "entity": str(self.entity),
+            #     "id": str(self.id),
+            #     "language": str(self.language_code),
+            #     "service": "AWS Transcribe"
+            # }
+            
+            # self.raw_payload['transcript'] = self.transcript
+            # self.raw_payload['service'] = "AWS Transcribe"
 
-            self.payload = json.dumps(self.payload_raw)
+            # self.payload = json.dumps(self.raw_payload)
+
+            self.payload = '{"transcript": "' + self.transcript + '",' + self.payload[1:]
+
+            self.payload =  self.payload[:-1] + ', "service": "AWS Transcribe"}'
+
             info('payload')
             info(self.payload)
 
