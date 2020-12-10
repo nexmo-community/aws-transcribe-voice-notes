@@ -25,10 +25,10 @@ The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before su
 Your Vonage Voice API application uses HTTP POST to the connector address with:
 - The Voice Note audio file as binary payload for the HTTP POST body,
 - And must include the query parameters:
-	- *webhook_url* (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
-	- *language_code* (e.g. en-US), which defines the transcription language 
-	- *entity* (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
-	- *id* (for any reference you may need), should be unique
+	- _*webhook_url*_ (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
+	- _*language_code*_ (e.g. en-US), which defines the transcription language 
+	- _*entity*_ (e.g. agent, courier, customer, supervisor, receptionist), any argument may be set for your own application logic
+	- _*id*_ (for any reference you may need), should be unique
 
 A few seconds later, the connector posts back to your Vonage Voice API application webhook_url (in the body of an HTTP POST):</br>
 	- the transcript,</br>
