@@ -21,6 +21,7 @@ import threading
 from queue import Queue
 import time
 import logging
+import uuid
 
 from amazon_transcribe.client import TranscribeStreamingClient
 from amazon_transcribe.handlers import TranscriptResultStreamHandler
@@ -381,7 +382,9 @@ class TranscribeHandler(tornado.web.RequestHandler):
         this_request = self.request
         value = self.data
 
-        audiofile = './recordings/' + self.id + '.wav'
+        self.audiofilename = str(uuid.uuid1())
+
+        audiofile = './recordings/' + self.audiofilename + '.wav'
         with open(audiofile, 'wb') as f:
             f.write(value)
             f.close()
