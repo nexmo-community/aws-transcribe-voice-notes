@@ -373,14 +373,10 @@ class TranscribeHandler(tornado.web.RequestHandler):
         self.payload = str(json.dumps(self.query_params))
 
         self.webhook_url = self.get_argument("webhook_url")
-        self.entity = self.get_argument("entity")
-        self.id = self.get_argument("id")
         self.language_code = self.get_argument("language_code")
 
-        info("webhook_url: {}".format(self.webhook_url))
-        info("entity: {}".format(self.entity))
-        info("id: {}".format(self.id))
-        info("language_code: {}".format(self.language_code))
+        # info("webhook_url: {}".format(self.webhook_url))
+        # info("language_code: {}".format(self.language_code))
 
         this_request = self.request
         value = self.data
