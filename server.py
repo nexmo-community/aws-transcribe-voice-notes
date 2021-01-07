@@ -63,7 +63,7 @@ conns = {}
 
 # Environment variables (local deployment: .env file)
 PORT = os.getenv("PORT") # Do not set as Config Vars for Heroku deployment
-REGION = os.getenv("REGION", default = "us-east-1")
+REGION = os.getenv("AWS_DEFAULT_REGION", default = "us-east-1")
 TRANSCRIBE_LANGUAGE_CODE = os.getenv("TRANSCRIBE_LANGUAGE_CODE", default = "en-US")
 
 # Derivate sentiment language from transcribe language
@@ -90,7 +90,7 @@ class MyEventHandler(TranscriptResultStreamHandler):
                 # print(alt.transcript)
 #--     
 
-async def basic_transcribe(file, transcript, media_sample_rate_hz=8000, language_code=TRANSCRIBE_LANGUAGE_CODE, region=REGION):
+async def basic_transcribe(file, transcript, media_sample_rate_hz=16000, language_code=TRANSCRIBE_LANGUAGE_CODE, region=REGION):
     
     client = TranscribeStreamingClient(region=region)
 
@@ -187,14 +187,16 @@ class TranscribeComprehendProcessor(object):
             
             while (checkqueue):
             	try:
-            		self.transcript = queue.get(False)
-            		checkqueue = False
-            		if (DELETE_RECORDING):
-            			os.remove(fn)
-            		break
+                    self.transcript = queue.get(False)
+                    checkqueue = False
+                    if (DELETE_RECORDING):
+                        os.remove(fn)
+                    print("try 1 ...")
+                    break
             	except:
-            		self.transcript = None
-            		await asyncio.sleep(1)
+                    self.transcript = None
+                    await asyncio.sleep(1)
+                    print("except 1 ...")
 
             print('>>>> transcript:', self.transcript)
             
@@ -389,41 +391,75 @@ class TranscribeHandler(tornado.web.RequestHandler):
             f.write(value)
             f.close()
 
+        #--    
+
+        # queue = Queue()
+        # x = Thread(target=asyncio.run, args=(basic_transcribe(file=audiofile, transcript=queue, media_sample_rate_hz=16000, language_code=self.language_code, ), ))
+        # x.start()
+
+        # checkqueue = True
+        
+        # while (checkqueue):
+        #     try:
+        #         self.transcript = queue.get(False)
+        #         checkqueue = False
+        #         if (DELETE_RECORDING):
+        #             os.remove(audiofile)
+        #         break
+        #     except:
+        #         self.transcript = None
+        #         await asyncio.sleep(1)
+
+        # print('>>>> transcript:', self.transcript)
+        
+        # queue.task_done()
+        # del(x)
+
+        #--------  Transcription multi-thread processing -- 
+
+        async def transcribe(cmd, result):
+            proc = await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+
+            stdout, stderr = await proc.communicate()
+
+            print(f'[{cmd!r} exited with {proc.returncode}]')
+            
+            if stdout:
+                result.put(f'{stdout.decode()}'.strip('\n'))
+            
+            if stderr:
+                error = (f'{stderr.decode()}').split('\n')[-2] 
+                result.put('>>> Failed transcription - Reason: ' + error)
+
+        program = 'python ./straight-transcription.py ' + audiofile + ' ' + self.language_code + ' ' + REGION
+
         queue = Queue()
-        x = Thread(target=asyncio.run, args=(basic_transcribe(file=audiofile, transcript=queue, media_sample_rate_hz=16000, language_code=self.language_code, ), ))
+
+        x = Thread(target=asyncio.run, args=(transcribe(cmd=program,result=queue), ))
+        
+        logging.info('>>> Start transcription thread <<<')
         x.start()
 
         checkqueue = True
         
         while (checkqueue):
-            try:
-                self.transcript = queue.get(False)
-                checkqueue = False
-                if (DELETE_RECORDING):
-                    os.remove(audiofile)
-                break
-            except:
-                self.transcript = None
-                await asyncio.sleep(1)
+          try: 
+              self.transcript = queue.get(False)
+              checkqueue = False
+              if (DELETE_RECORDING):
+                  os.remove(audiofile)
+              break
+          except:
+              self.transcript = None
+              await asyncio.sleep(1)  
 
         print('>>>> transcript:', self.transcript)
         
         queue.task_done()
-        del(x)
+
+        #---------
 
         if self.transcript != '' :
-            # self.payload_raw = {
-            #     "transcript": str(self.transcript),
-            #     "entity": str(self.entity),
-            #     "id": str(self.id),
-            #     "language": str(self.language_code),
-            #     "service": "AWS Transcribe"
-            # }
-            
-            # self.raw_payload['transcript'] = self.transcript
-            # self.raw_payload['service'] = "AWS Transcribe"
-
-            # self.payload = json.dumps(self.raw_payload)
 
             self.payload = '{"transcript": "' + self.transcript + '",' + self.payload[1:]
 
@@ -435,8 +471,6 @@ class TranscribeHandler(tornado.web.RequestHandler):
             # Posting results back via webhook
             if (self.webhook_url):
                 a = requests.post(self.webhook_url, data=self.payload, headers={'Content-Type': 'application/json'})
-
-
 
 #------------------------- Main thread -----------------------------------------        
 
