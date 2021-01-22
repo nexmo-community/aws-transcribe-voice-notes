@@ -129,7 +129,7 @@ Test the transcription using this curl command:</br>
 ```bash
 curl -X POST "https://myapp.herokuapp.com/transcribe?webhook_url=https://xxxx.ngrok.io/transcript&entity=customer&id=abcd&language_code=en-US" -H "Content-Type:application/octet-stream" --data-binary @sampleaudio.wav
 ```
-The transcript will be posted to the _webhook_url_ URL, including all query parameters from the original POST request.
+The transcript will be posted to the _webhook_url_ URL, including all custom query parameters needed by your application logic from the original POST request.
 
 ## Usage capacity
 
