@@ -117,6 +117,19 @@ Click the 'Deploy to Heroku' button at the top of this page, and follow the inst
 
 Once deployed, on the Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
 
+### Quick test
+
+Quickly test your connector as follows:</br>
+- Have a sample audio file ready with format PCM encoding, 16-bit sample size, 16 kHz sample frequency, e.g. sampleaudio.wav,</br>
+- Have your deployed connector server URL, e.g. https://myapp.herokuapp.com/transcribe</br>
+- Have the webhook call back URL to your client application, e.g. https://xxxx.ngrok.io/transcript</br>
+
+Test the transcription using this curl command:</br>
+
+```bash
+curl -X POST "https://myapp.herokuapp.com/transcribe?webhook_url=https://xxxx.ngrok.io/transcript&entity=customer&id=abcd&language_code=en-US" -H "Content-Type:application/octet-stream" --data-binary @sampleaudio.wav
+```
+
 ## Usage capacity
 
 This connector is a multi-threaded application that submits concurrent transcription requests to Amazon Transcribe in parallel.
