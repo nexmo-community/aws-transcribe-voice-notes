@@ -55,6 +55,10 @@ conns = {}
 # Environment variables (local deployment: .env file)
 PORT = os.getenv("PORT") # Do not set as Config Vars for Heroku deployment
 REGION = os.getenv("AWS_DEFAULT_REGION", default = "us-east-1")
+TRANSCRIBE_LANGUAGE_CODE = os.getenv("TRANSCRIBE_LANGUAGE_CODE", default = "en-US")
+
+# Derivate sentiment language from transcribe language
+SENTIMENT_LANGUAGE = TRANSCRIBE_LANGUAGE_CODE[:2]   # e.g. "en"
 
 # Delete temporary audio file
 DELETE_RECORDING = os.getenv("DELETE_RECORDING", default = True)
