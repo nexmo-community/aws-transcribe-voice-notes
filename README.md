@@ -120,7 +120,7 @@ Once deployed, on the Heroku dashboard where your connector application page is 
 ### Quick test
 
 Quickly test your connector as follows:</br>
-- Have a sample audio file ready with format PCM encoding, 16-bit sample size, 16 kHz sample frequency, e.g. sampleaudio.wav,</br>
+- Have a sample audio file ready with format PCM encoding, 16-bit sample size, 16 kHz sample frequency, e.g. _sampleaudio.wav_,</br>
 - Have your deployed connector server URL, e.g. https://myapp.herokuapp.com/transcribe</br>
 - Have the webhook call back URL to your client application, e.g. https://xxxx.ngrok.io/transcript</br>
 
