@@ -54,11 +54,6 @@ async def basic_transcribe(file, media_sample_rate_hz=16000, language_code="en-U
 
 #------------------        
 
-# loop = asyncio.get_event_loop()
-# loop.run_until_complete(basic_transcribe())
-# loop.close()
-
-# fn = './test.wav'
 fn = sys.argv[1]    # audio file name
 lc = sys.argv[2]    # language code, e.g. en-US
 r = sys.argv[3]     # region, e.g. us-east-1

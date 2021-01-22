@@ -47,15 +47,6 @@ load_dotenv()
 
 #-------------------------
 
-# format = '%(asctime)s: %(message)s'
-# logging.basicConfig(format=format, level=logging.DEBUG, datefmt='%H:%M:%S')
-
-# # Only used for record function
-
-# logging.captureWarnings(False)
-# requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
-# requests.packages.urllib3.disable_warnings(SNIMissingWarning)
-
 MS_PER_FRAME = 20  # Duration of a frame in ms
 
 # Global variables
@@ -64,11 +55,8 @@ conns = {}
 # Environment variables (local deployment: .env file)
 PORT = os.getenv("PORT") # Do not set as Config Vars for Heroku deployment
 REGION = os.getenv("AWS_DEFAULT_REGION", default = "us-east-1")
-TRANSCRIBE_LANGUAGE_CODE = os.getenv("TRANSCRIBE_LANGUAGE_CODE", default = "en-US")
 
-# Derivate sentiment language from transcribe language
-SENTIMENT_LANGUAGE = TRANSCRIBE_LANGUAGE_CODE[:2]   # e.g. "en"
-
+# Delete temporary audio file
 DELETE_RECORDING = os.getenv("DELETE_RECORDING", default = True)
 
 #-------------------------------- Transcribe main -----------------------------
@@ -80,9 +68,6 @@ class MyEventHandler(TranscriptResultStreamHandler):
         self.result_holder = []
 
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
-        # This handler can be implemented to handle transcriptions as needed.
-        # Here's an example to get started.
-
         results = transcript_event.transcript.results
         for result in results:
             for alt in result.alternatives:
@@ -265,7 +250,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.tick = None
         self.id = uuid.uuid4().hex
         self.vad = webrtcvad.Vad()
-        # Level of sensitivity
         self.processor = None
         self.path = None
         self.rate = None  # default to None
@@ -390,30 +374,6 @@ class TranscribeHandler(tornado.web.RequestHandler):
         with open(audiofile, 'wb') as f:
             f.write(value)
             f.close()
-
-        #--    
-
-        # queue = Queue()
-        # x = Thread(target=asyncio.run, args=(basic_transcribe(file=audiofile, transcript=queue, media_sample_rate_hz=16000, language_code=self.language_code, ), ))
-        # x.start()
-
-        # checkqueue = True
-        
-        # while (checkqueue):
-        #     try:
-        #         self.transcript = queue.get(False)
-        #         checkqueue = False
-        #         if (DELETE_RECORDING):
-        #             os.remove(audiofile)
-        #         break
-        #     except:
-        #         self.transcript = None
-        #         await asyncio.sleep(1)
-
-        # print('>>>> transcript:', self.transcript)
-        
-        # queue.task_done()
-        # del(x)
 
         #--------  Transcription multi-thread processing -- 
 
