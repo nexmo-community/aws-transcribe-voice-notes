@@ -86,6 +86,12 @@ Your server's public hostname and port will be used by your Vonage Voice API app
 
 ### Command Line Heroku deployment
 
+Install [git](https://git-scm.com/downloads).
+
+Install [Heroku command line](https://devcenter.heroku.com/categories/command-line) and login to your Heroku account.
+
+Download this sample application code to a local folder, then go to that folder.
+
 If you do not yet have a local git repository, create one:</br>
 ```bash
 git init
@@ -127,7 +133,7 @@ Quickly test your connector as follows:</br>
 Test the transcription using this curl command:</br>
 
 ```bash
-curl -X POST "https://myapp.herokuapp.com/transcribe?webhook_url=https://xxxx.ngrok.io/transcript&entity=customer&id=abcd&language_code=en-US" -H "Content-Type:application/octet-stream" --data-binary @sampleaudio.wav
+curl -X POST "https://myappname.herokuapp.com/transcribe?webhook_url=https://xxxx.ngrok.io/transcript&entity=customer&id=abcd&language_code=en-US" -H "Content-Type:application/octet-stream" --data-binary @sampleaudio.wav
 ```
 A JSON formatted response will be posted to the _webhook_url_ URL, including the transcript and all custom query parameters needed by your application logic from the original POST request.
 
