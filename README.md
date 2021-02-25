@@ -6,15 +6,18 @@ Use this Transcribe connector for transcription of voice notes created from the 
 
 ## Amazon Transcribe connector
 
-In order to get started, you need to have an [AWS account](http://aws.amazon.com), retrieve your AWS key and secret, and take note of your AWS services default region.
+In order to get started, you will need to have an [AWS account](http://aws.amazon.com).
 
-To find your Access Key and Secret Access Key:
+You will also need to know an active AWS Access Key ID and Secret Key pair.
 
-- Log in to your [AWS Management Console](http://aws.amazon.com/console).
+If necessary, create a new pair of keys:
+- Log in to your [AWS Management Console](http://aws.amazon.com).
 - Click on your user name at the top right of the page.
-- Click on the Security Credentials link from the drop-down menu.
-- Find the Access Credentials section, and copy the latest Access Key ID.
-- Click on the Show link in the same row, and copy the Secret Access Key.
+- Click on the My Security Credentials link from the drop-down menu.
+- Go to Access keys section,
+- Click on \[Create New Access Key\] (\*)
+
+(\*) *Note: Your AWS account may be limited to only 2 active Access Keys. To create a new pair of Keys, you may need to "Make Inactive" an existing active Access Key ID, however before doing so, you need to absolutely make sure that key is not used by your other applications.*
 
 ## About this connector
 
@@ -25,7 +28,7 @@ The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before su
 Your Vonage Voice API application uses HTTP POST to the connector address with the follwing requirements:
 - The Voice Note audio file as binary payload for the HTTP POST body,
 - Must include at least the following query parameters:
-	- _**webhook_url**_ (e.g. https://my_server.my_company.com:32000/transcript) where the transcript will be posted by the connector
+	- _**webhook_url**_ (e.g. https://myserver.mycompany.com:32000/transcript) where the transcript will be posted by the connector
 	- _**language_code**_ (e.g. en-US), which defines the transcription language
 - Your application may send/use any additional query parameter names and values for your application logic needs, except it **may not** use/send the following reserved query parameter names:
 	- _**transcript**_
@@ -49,7 +52,8 @@ cp .env.example .env
 
 Edit `.env` file,<br/>
 set the 3 first parameters with their respective values retrieved from your AWS account,<br/>
-set the `PORT` value where websockets connections will be established.
+set the `PORT` value (e.g. *5000*) where websockets connections will be established.
+The `PORT` value needs to be the same as specified in `Dockerfile` and `docker-compose.yml` files.
 
 Launch the Transcribe & Comprehend connector as a Docker instance:
 

@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   transcribe-voice-notes:
-    container_name: vg-aws-transcribe-voice-notes
+    container_name: transcribe-voice-notes
     restart: always
     build: .
     env_file: .env
