@@ -52,7 +52,7 @@ cp .env.example .env
 
 Edit `.env` file,<br/>
 set the 3 first parameters with their respective values retrieved from your AWS account,<br/>
-set the `PORT` value (e.g. *5000*) where websockets connections will be established.
+set the `PORT` value (e.g. *5000*) where transcriptions requests will be received.
 The `PORT` value needs to be the same as specified in `Dockerfile` and `docker-compose.yml` files.
 
 Launch the Transcribe & Comprehend connector as a docker container instance:
