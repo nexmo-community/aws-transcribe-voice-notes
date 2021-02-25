@@ -55,12 +55,12 @@ set the 3 first parameters with their respective values retrieved from your AWS 
 set the `PORT` value (e.g. *5000*) where websockets connections will be established.
 The `PORT` value needs to be the same as specified in `Dockerfile` and `docker-compose.yml` files.
 
-Launch the Transcribe & Comprehend connector as a Docker instance:
+Launch the Transcribe & Comprehend connector as a docker container instance:
 
 ```bash
 docker-compose up
 ```
-Your Docker container's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<docker_host_name>:<proxy_port>/transcribe`, e.g. `https://myserver.mydomain.com:40000/transcribe`
+Your docker container's public hostname and port will be used by your Vonage Voice API application as the address to where to submit the transcription request `https://<docker_host_name>:<proxy_port>/transcribe`, e.g. `https://myserver.mydomain.com:40000/transcribe`
 
 ### Local deployment
 
