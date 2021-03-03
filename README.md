@@ -2,9 +2,9 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nexmo-se/aws-transcribe-voice-notes)
 
-Use this Transcribe connector for transcription of voice notes created from the Client SDK in a named conference.
+Use this Transcribe reference connection for transcription of voice notes created from the Client SDK in a named conference.
 
-## Amazon Transcribe connector
+## Amazon Transcribe reference connection
 
 In order to get started, you will need to have an [AWS account](http://aws.amazon.com).
 
@@ -19,27 +19,27 @@ If necessary, create a new pair of keys:
 
 (\*) *Note: Your AWS account may be limited to only 2 active Access Keys. To create a new pair of Keys, you may need to "Make Inactive" an existing active Access Key ID, however before doing so, you need to absolutely make sure that key is not used by your other applications.*
 
-## About this connector
+## About this reference connection
 
-Vonage Voice API's Amazon Transcribe connector for Voice Notes transcribe audio clips created with Vonage API Client SDK (WebRTC client).
+Vonage Voice API's Amazon Transcribe reference connection for Voice Notes transcribe audio clips created with Vonage API Client SDK (WebRTC client).
 
-The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before submitting it via HTTP POST to this connector.
+The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before submitting it via HTTP POST to this reference connection.
 
-Your Vonage Voice API application uses HTTP POST to the connector address with the follwing requirements:
+Your Vonage Voice API application uses HTTP POST to the reference connection address with the follwing requirements:
 - The Voice Note audio file as binary payload for the HTTP POST body,
 - Must include at least the following query parameters:
-	- _**webhook_url**_ (e.g. https://myserver.mycompany.com:32000/transcript) where the transcript will be posted by the connector
+	- _**webhook_url**_ (e.g. https://myserver.mycompany.com:32000/transcript) where the transcript will be posted by the reference connection
 	- _**language_code**_ (e.g. en-US), which defines the transcription language
 - Your application may send/use any additional query parameter names and values for your application logic needs, except it **may not** use/send the following reserved query parameter names:
 	- _**transcript**_
 	- _**service**_ 
 
-A few seconds later, the connector posts back to your Vonage Voice API application webhook_url a JSON formatted payload (in the body of an HTTP POST):</br>
+A few seconds later, the reference connection posts back to your Vonage Voice API application webhook_url a JSON formatted payload (in the body of an HTTP POST):</br>
 	- the _**"transcript"**_,</br>
 	- the name of the _**"service"**_, which is "AWS Transcribe" in this case,</br> 
-	- and all other values sent as query parameters of the original request to the connector, e.g. _**"webhook_url"**_, _**"language_code"**_, and any additional query parameters that have been sent in the original HTTP POST</br>
+	- and all other values sent as query parameters of the original request to the reference connection, e.g. _**"webhook_url"**_, _**"language_code"**_, and any additional query parameters that have been sent in the original HTTP POST</br>
 
-## Running Transcibe connector for Voice Notes
+## Running Transcibe reference connection for Voice Notes
 
 You may select one of the following 4 types of deployments.
 
@@ -55,7 +55,7 @@ set the 3 first parameters with their respective values retrieved from your AWS 
 set the `PORT` value (e.g. *5000*) where transcriptions requests will be received.
 The `PORT` value needs to be the same as specified in `Dockerfile` and `docker-compose.yml` files.
 
-Launch the Transcribe & Comprehend connector as a docker container instance:
+Launch the Transcribe & Comprehend reference connection as a docker container instance:
 
 ```bash
 docker-compose up
@@ -81,7 +81,7 @@ Install dependencies once:
 pip install --upgrade -r requirements.txt
 ```
 
-Launch the connector service:
+Launch the reference connection service:
 ```bash
 python server.py
 ```
@@ -103,13 +103,13 @@ git add .
 git commit -am "initial"
 ```
 
-Deploy this connector application to Heroku from the command line using the Heroku CLI:
+Deploy this reference connection application to Heroku from the command line using the Heroku CLI:
 
 ```bash
 heroku create myappname
 ```
 
-On your Heroku dashboard where your connector application page is shown, click on `Settings` button,
+On your Heroku dashboard where your reference connection application page is shown, click on `Settings` button,
 add the following `Config Vars` and set them with their respective values retrieved from your AWS account:</br>
 AWS_ACCESS_KEY_ID</br>
 AWS_SECRET_ACCESS_KEY</br>
@@ -119,19 +119,19 @@ AWS_DEFAULT_REGION</br>
 git push heroku master
 ```
 
-On your Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
+On your Heroku dashboard where your reference connection application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
 
 ### 1-click Heroku deployment
 
 Click the 'Deploy to Heroku' button at the top of this page, and follow the instructions to enter your Heroku application name and the 3 AWS parameter respective values retrieved from your AWS account.
 
-Once deployed, on the Heroku dashboard where your connector application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
+Once deployed, on the Heroku dashboard where your reference connection application page is shown, click on `Open App` button, that URL will be the one to be used by your Vonage Voice API application as where to submit the HTTP POST, e.g. `https://myappname.herokuapp.com/transcribe`.
 
 ### Quick test
 
-Quickly test your connector as follows:</br>
+Quickly test your reference connection as follows:</br>
 - Have a sample audio file ready with format PCM encoding, 16-bit sample size, 16 kHz sample frequency, e.g. _sampleaudio.wav_,</br>
-- Have your deployed connector server URL, e.g. https://myapp.herokuapp.com/transcribe</br>
+- Have your deployed reference connection server URL, e.g. https://myapp.herokuapp.com/transcribe</br>
 - Have the webhook call back URL to your client application, e.g. https://xxxx.ngrok.io/transcript</br>
 
 Test the transcription using this curl command:</br>
@@ -143,8 +143,8 @@ A JSON formatted response will be posted to the _webhook_url_ URL, including the
 
 ## Usage capacity
 
-This connector is a multi-threaded application that submits concurrent transcription requests to Amazon Transcribe in parallel.
+This reference connection is a multi-threaded application that submits concurrent transcription requests to Amazon Transcribe in parallel.
 
-Make sure your voice application and connector application do not submit more than the maximum allowed (default = 5) concurrent transcription requests on your Amazon Transcribe account.
+Make sure your voice application and reference connection application do not submit more than the maximum allowed (default = 5) concurrent transcription requests on your Amazon Transcribe account.
 
 You may see more information on that subject [here](https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html).
