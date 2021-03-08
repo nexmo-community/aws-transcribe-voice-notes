@@ -1,6 +1,6 @@
 # Amazon Transcribe for Voice Notes created from Vonage Client SDK
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nexmo-se/aws-transcribe-voice-notes)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nexmo-community/aws-transcribe-voice-notes)
 
 Use this Transcribe reference connection for transcription of voice notes created from the Client SDK in a named conference.
 
