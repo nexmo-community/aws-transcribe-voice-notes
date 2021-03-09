@@ -2,7 +2,7 @@
   "name": "Vonage API platform connector to Amazon Transcribe for voice notes",
   "description": "This connector allows voice notes created by Vonage Client SDK to be transcribed",
   "keywords": ["transcribe", "python", "amazon web services", "vonage"],
-  "repository": "https://github.com/nexmo-se/aws-transcribe-voice-notes",
+  "repository": "https://github.com/nexmo-community/aws-transcribe-voice-notes",
   "env":{
     "AWS_ACCESS_KEY_ID": {
         "description": "Retrieved from your security credentials on AWS console",
