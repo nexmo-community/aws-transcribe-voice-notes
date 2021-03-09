@@ -1,8 +1,8 @@
-# Amazon Transcribe for Voice Notes created from Vonage Client SDK
+# Amazon Transcribe for Voice Notes Reference Connection
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nexmo-se/aws-transcribe-voice-notes)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/nexmo-community/aws-transcribe-voice-notes)
 
-Use this Transcribe reference connection for transcription of voice notes created from the Client SDK in a named conference.
+Use this Transcribe reference connection for transcription of voice notes created from the Vonage Client SDK and Vonage Voice API.
 
 ## Amazon Transcribe reference connection
 
@@ -21,11 +21,11 @@ If necessary, create a new pair of keys:
 
 ## About this reference connection
 
-Vonage Voice API's Amazon Transcribe reference connection for Voice Notes transcribe audio clips created with Vonage API Client SDK (WebRTC client).
+Vonage Voice API's Amazon Transcribe reference connection for Voice Notes transcribe audio clips created with Vonage API Client SDK (WebRTC client) and Vonage Voice API.
 
 The Voice Note audio file must be converted to PCM 16 bits 16 kHz mono before submitting it via HTTP POST to this reference connection.
 
-Your Vonage Voice API application uses HTTP POST to the reference connection address with the follwing requirements:
+Your application uses HTTP POST to the reference connection address with the follwing requirements:
 - The Voice Note audio file as binary payload for the HTTP POST body,
 - Must include at least the following query parameters:
 	- _**webhook_url**_ (e.g. https://myserver.mycompany.com:32000/transcript) where the transcript will be posted by the reference connection
